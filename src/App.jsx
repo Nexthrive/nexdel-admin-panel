@@ -1,11 +1,8 @@
 import "./App.scss";
+import Login from "./pages/login/index";
 
 function App() {
-	return (
-		<>
-			<h1>Hello Developer!</h1>
-		</>
-	);
+  return <Login />;
 }
 
 export default App;
