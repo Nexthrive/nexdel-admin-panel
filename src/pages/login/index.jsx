@@ -1,8 +1,33 @@
 import React from "react";
 import "../../index.scss";
 import "./index.scss";
-
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 function index() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const credentials = {
+      email,
+      password,
+    };
+
+    axios
+      .post("http://localhost:3000/user/login", credentials)
+      .then((response) => {
+        console.log("Login successful", response.data);
+        const token = response.data.token;
+        localStorage.setItem("token", token); // Store the token\
+        navigate("/home");
+      })
+      .catch((error) => {
+        console.error("Login error", error);
+      });
+  };
   return (
     <div className="main-div">
       <div className="left-div">
@@ -33,12 +58,22 @@ function index() {
           <label htmlFor="email" className="username-text">
             Email
           </label>
-          <input type="text" className="username-input" />
+          <input
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="username-input"
+          />
           <label htmlFor="Password" className="password-text">
             Password
           </label>
-          <input type="password" className="password-input" />
-          <button type="submit" className="login-button">
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="password-input"
+          />
+          <button type="submit" onClick={handleLogin} className="login-button">
             Login
           </button>
         </form>
