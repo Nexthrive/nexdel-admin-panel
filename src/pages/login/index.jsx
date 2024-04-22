@@ -3,6 +3,8 @@ import "../../index.scss";
 import "./index.scss";
 import { useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
+
 import { useNavigate } from "react-router-dom";
 function index() {
   const [email, setEmail] = useState("");
@@ -21,7 +23,7 @@ function index() {
       .then((response) => {
         console.log("Login successful", response.data);
         const token = response.data.token;
-        localStorage.setItem("token", token); // Store the token\
+        Cookies.set("token", token); // Store the token
         navigate("/home");
       })
       .catch((error) => {
